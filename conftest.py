@@ -5,7 +5,7 @@ from pytest import fixture
 from reportportal_client import RPLogger
 from playwright.sync_api import sync_playwright
 
-# from utilities.application import App
+from utilities.application import App
 
 
 # Report Portal

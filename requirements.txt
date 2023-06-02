@@ -4,3 +4,4 @@ pytest-playwright
 pytest-reportportal
 pytest-xdist
 requests
+Faker
