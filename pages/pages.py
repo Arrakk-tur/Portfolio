@@ -43,4 +43,63 @@ class RegistrationPage:
     def input_text_to_user_id_field(self, user_id: str):
         self.page.fill(self.locators.USER_ID, user_id)
 
-# TODO: Finish form
+    def input_text_to_new_password_field(self, new_password: str):
+        self.page.fill(self.locators.NEW_PASSWORD, new_password)
+
+    def input_text_to_repeat_password_field(self, repeat_password: str):
+        self.page.fill(self.locators.REPEAT_PASSWORD, repeat_password)
+
+    # Account Information
+
+    def input_text_to_first_name_field(self, first_name: str):
+        self.page.fill(self.locators.FIRST_NAME, first_name)
+
+    def input_text_to_last_name_field(self, last_name: str):
+        self.page.fill(self.locators.LAST_NAME, last_name)
+
+    def input_text_to_email_field(self, email: str):
+        self.page.fill(self.locators.USER_ID, email)
+
+    def input_text_to_phone_field(self, phone: str):
+        self.page.fill(self.locators.PHONE, phone)
+
+    def input_text_to_address1_field(self, address1: str):
+        self.page.fill(self.locators.ADDRESS_1, address1)
+
+    def input_text_to_address2_field(self, address2: str):
+        self.page.fill(self.locators.ADDRESS_2, address2)
+
+    def input_text_to_city_field(self, city: str):
+        self.page.fill(self.locators.CITY, city)
+
+    def input_text_to_state_field(self, state: str):
+        self.page.fill(self.locators.STATE, state)
+
+    def input_text_to_zip_field(self, zip_code: str):
+        self.page.fill(self.locators.ZIP, zip_code)
+
+    def input_text_to_country_field(self, country: str):
+        self.page.fill(self.locators.COUNTRY, country)
+
+    # Profile Information
+
+    def select_language(self, value: str):
+        """
+        Need to choose Language from the given list.
+        :param value: "english", "japanese"
+        """
+        self.page.select_option(self.locators.LANGUAGE_PREFERENCE, value=value)
+
+    def select_favourite_category(self, value: str):
+        """
+        Need to choose Favourite Category from the given list.
+        :param value: "FISH", "DOGS", "REPTILES", "CATS", "BIRDS"
+        """
+        self.page.select_option(self.locators.FAVOURITE_CATEGORY, value=value)
+
+    def select_my_list(self):
+# TODO: finish
+    pass
+
+    def send_new_user_information(self):
+        self.page.click(self.locators.SAVE_ACCOUNT_INFORMATION_BUTTON)
