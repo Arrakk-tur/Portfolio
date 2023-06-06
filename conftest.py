@@ -28,6 +28,6 @@ def get_playwright():
 def driver(get_playwright, request):
     base_url = request.config.getini("base_url")    # Setup in pytest.ini
     app = App(get_playwright, base_url=base_url)
-    app.goto("/")
+    app.goto("")
     yield app
     app.close()

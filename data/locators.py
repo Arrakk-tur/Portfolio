@@ -1,4 +1,5 @@
-class HeaderLocators:
+class MainPageLocators:
+    SIDEBAR_MENU = "//div[@id='Sidebar']"
     SIGN_IN_BUTTON = "//div[@id='MenuContent']/a[text()='Sign In']"
     SHOPPING_CART_BUTTON = "//div[@id='MenuContent']/a[1]"
 

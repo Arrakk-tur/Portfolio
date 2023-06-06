@@ -1,14 +1,16 @@
 from playwright.sync_api import Page
+
+from data.users import Users
 from data.locators import (
-    HeaderLocators,
+    MainPageLocators,
     SignInPageLocators,
     RegistrationPageLocators,
 )
 
 
-class Header:
+class MainPage:
     def __init__(self, page: Page):
-        self.locators = HeaderLocators
+        self.locators = MainPageLocators
         self.page = page
 
     def navigate_to_sign_in_page_by_header_menu(self):
@@ -16,6 +18,9 @@ class Header:
 
     def navigate_to_shopping_cart_page_by_header_menu(self):
         self.page.click(self.locators.SHOPPING_CART_BUTTON)
+
+    def check_sidebar_is_present(self):
+        self.page.check(self.locators.SIDEBAR_MENU)
 
 
 class SignInPage:
@@ -58,7 +63,7 @@ class RegistrationPage:
         self.page.fill(self.locators.LAST_NAME, last_name)
 
     def input_text_to_email_field(self, email: str):
-        self.page.fill(self.locators.USER_ID, email)
+        self.page.fill(self.locators.EMAIL, email)
 
     def input_text_to_phone_field(self, phone: str):
         self.page.fill(self.locators.PHONE, phone)
@@ -98,8 +103,40 @@ class RegistrationPage:
         self.page.select_option(self.locators.FAVOURITE_CATEGORY, value=value)
 
     def select_my_list(self):
-# TODO: finish
-    pass
+        self.page.click(self.locators.MY_LIST)
+
+    def select_my_banner(self):
+        self.page.click(self.locators.MY_BANNER)
 
     def send_new_user_information(self):
         self.page.click(self.locators.SAVE_ACCOUNT_INFORMATION_BUTTON)
+
+    def filling_in_registration_form(self):
+        user_id = Users().user_id()
+        user = Users().account_info()
+
+    # User Information
+
+        self.input_text_to_user_id_field(user_id)
+        self.input_text_to_new_password_field(user_id)
+        self.input_text_to_repeat_password_field(user_id)
+
+    # Account Information
+
+        self.input_text_to_first_name_field(user["first_name"])
+        self.input_text_to_last_name_field(user["last_name"])
+        self.input_text_to_email_field(user["email"])
+        self.input_text_to_phone_field(user["phone"])
+        self.input_text_to_address1_field(user["address1"])
+        self.input_text_to_address2_field(user["address2"])
+        self.input_text_to_city_field(user["city"])
+        self.input_text_to_first_name_field(user["state"])
+        self.input_text_to_zip_field(user["zip_code"])
+        self.input_text_to_country_field(user["country"])
+
+    # Profile Information
+
+        self.select_language("english")
+        self.select_favourite_category("REPTILES")
+        self.select_my_list()
+        self.select_my_banner()
