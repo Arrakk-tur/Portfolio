@@ -9,12 +9,13 @@ class TestsRegistrationPage:
         m = driver.main_page
         s = driver.sign_in_page
         r = driver.registration_page
+
         m.navigate_to_sign_in_page_by_header_menu()
         s.navigate_to_register_page_by_link()
         r.filling_in_registration_form()
         r.send_new_user_information()
+
         assert m.check_sidebar_is_present() == True
-        # sleep(5)
 
     def test_user(self):
         user = Users().account_info()

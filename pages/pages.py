@@ -1,5 +1,6 @@
 from playwright.sync_api import Page
 
+import conftest
 from data.users import Users
 from data.locators import (
     MainPageLocators,
@@ -20,7 +21,8 @@ class MainPage:
         self.page.click(self.locators.SHOPPING_CART_BUTTON)
 
     def check_sidebar_is_present(self):
-        self.page.check(self.locators.SIDEBAR_MENU)
+        self.page.wait_for_url(conftest.base_url)
+        return self.page.is_visible(self.locators.SIDEBAR_MENU)
 
 
 class SignInPage:
@@ -130,7 +132,7 @@ class RegistrationPage:
         self.input_text_to_address1_field(user["address1"])
         self.input_text_to_address2_field(user["address2"])
         self.input_text_to_city_field(user["city"])
-        self.input_text_to_first_name_field(user["state"])
+        self.input_text_to_state_field(user["state"])
         self.input_text_to_zip_field(user["zip_code"])
         self.input_text_to_country_field(user["country"])
 

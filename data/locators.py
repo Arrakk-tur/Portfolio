@@ -36,6 +36,6 @@ class RegistrationPageLocators:
     LANGUAGE_PREFERENCE = "//select[@name='account.languagePreference']"
     FAVOURITE_CATEGORY = "//select[@name='account.favouriteCategoryId']"
     MY_LIST = "//input[@name='account.listOption']"
-    MY_BANNER = "//input[@name='account.account.bannerOption']"
+    MY_BANNER = "//input[@name='account.bannerOption']"
 
     SAVE_ACCOUNT_INFORMATION_BUTTON = "//input[@name='newAccount']"
