@@ -1,0 +1,144 @@
+from playwright.sync_api import Page
+
+import conftest
+from data.users import Users
+from data.locators import (
+    MainPageLocators,
+    SignInPageLocators,
+    RegistrationPageLocators,
+)
+
+
+class MainPage:
+    def __init__(self, page: Page):
+        self.locators = MainPageLocators
+        self.page = page
+
+    def navigate_to_sign_in_page_by_header_menu(self):
+        self.page.click(self.locators.SIGN_IN_BUTTON)
+
+    def navigate_to_shopping_cart_page_by_header_menu(self):
+        self.page.click(self.locators.SHOPPING_CART_BUTTON)
+
+    def check_sidebar_is_present(self):
+        self.page.wait_for_url(conftest.base_url)
+        return self.page.is_visible(self.locators.SIDEBAR_MENU)
+
+
+class SignInPage:
+    def __init__(self, page: Page):
+        self.locators = SignInPageLocators
+        self.page = page
+
+    def input_text_to_username_field(self, username: str):
+        self.page.fill(self.locators.USERNAME_INPUT, username)
+
+    def input_text_to_password_field(self, password: str):
+        self.page.fill(self.locators.PASSWORD_INPUT, password)
+
+    def navigate_to_register_page_by_link(self):
+        self.page.click(self.locators.REGISTER_BUTTON)
+
+
+class RegistrationPage:
+    def __init__(self, page: Page):
+        self.locators = RegistrationPageLocators
+        self.page = page
+
+    # User Information
+
+    def input_text_to_user_id_field(self, user_id: str):
+        self.page.fill(self.locators.USER_ID, user_id)
+
+    def input_text_to_new_password_field(self, new_password: str):
+        self.page.fill(self.locators.NEW_PASSWORD, new_password)
+
+    def input_text_to_repeat_password_field(self, repeat_password: str):
+        self.page.fill(self.locators.REPEAT_PASSWORD, repeat_password)
+
+    # Account Information
+
+    def input_text_to_first_name_field(self, first_name: str):
+        self.page.fill(self.locators.FIRST_NAME, first_name)
+
+    def input_text_to_last_name_field(self, last_name: str):
+        self.page.fill(self.locators.LAST_NAME, last_name)
+
+    def input_text_to_email_field(self, email: str):
+        self.page.fill(self.locators.EMAIL, email)
+
+    def input_text_to_phone_field(self, phone: str):
+        self.page.fill(self.locators.PHONE, phone)
+
+    def input_text_to_address1_field(self, address1: str):
+        self.page.fill(self.locators.ADDRESS_1, address1)
+
+    def input_text_to_address2_field(self, address2: str):
+        self.page.fill(self.locators.ADDRESS_2, address2)
+
+    def input_text_to_city_field(self, city: str):
+        self.page.fill(self.locators.CITY, city)
+
+    def input_text_to_state_field(self, state: str):
+        self.page.fill(self.locators.STATE, state)
+
+    def input_text_to_zip_field(self, zip_code: str):
+        self.page.fill(self.locators.ZIP, zip_code)
+
+    def input_text_to_country_field(self, country: str):
+        self.page.fill(self.locators.COUNTRY, country)
+
+    # Profile Information
+
+    def select_language(self, value: str):
+        """
+        Need to choose Language from the given list.
+        :param value: "english", "japanese"
+        """
+        self.page.select_option(self.locators.LANGUAGE_PREFERENCE, value=value)
+
+    def select_favourite_category(self, value: str):
+        """
+        Need to choose Favourite Category from the given list.
+        :param value: "FISH", "DOGS", "REPTILES", "CATS", "BIRDS"
+        """
+        self.page.select_option(self.locators.FAVOURITE_CATEGORY, value=value)
+
+    def select_my_list(self):
+        self.page.click(self.locators.MY_LIST)
+
+    def select_my_banner(self):
+        self.page.click(self.locators.MY_BANNER)
+
+    def send_new_user_information(self):
+        self.page.click(self.locators.SAVE_ACCOUNT_INFORMATION_BUTTON)
+
+    def filling_in_registration_form(self):
+        user_id = Users().user_id()
+        user = Users().account_info()
+
+    # User Information
+
+        self.input_text_to_user_id_field(user_id)
+        self.input_text_to_new_password_field(user_id)
+        self.input_text_to_repeat_password_field(user_id)
+
+    # Account Information
+
+        self.input_text_to_first_name_field(user["first_name"])
+        self.input_text_to_last_name_field(user["last_name"])
+        self.input_text_to_email_field(user["email"])
+        self.input_text_to_phone_field(user["phone"])
+        self.input_text_to_address1_field(user["address1"])
+        self.input_text_to_address2_field(user["address2"])
+        self.input_text_to_city_field(user["city"])
+        self.input_text_to_state_field(user["state"])
+        self.input_text_to_zip_field(user["zip_code"])
+        self.input_text_to_country_field(user["country"])
+
+    # Profile Information
+
+        self.select_language("english")
+        self.select_favourite_category("REPTILES")
+        self.select_my_list()
+        self.select_my_banner()
