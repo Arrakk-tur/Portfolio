@@ -26,15 +26,10 @@ def get_playwright():
 
 # Driver
 @fixture
-def driver(get_playwright, base_url):
-    base_url = base_url
+def driver(get_playwright, request):
+    base_url = request.config.getini("base_url")    # Setup in pytest.ini
     app = App(get_playwright, base_url=base_url)
     app.goto("")
     yield app
     app.close()
 
-
-@fixture(scope="session")
-def base_url(request):
-    base_url = request.config.getini("base_url")    # Setup in pytest.ini
-    return base_url
