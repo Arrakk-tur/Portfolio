@@ -1,12 +1,15 @@
+import logging
+
+import pytest
 from playwright.sync_api import Page
 
-import conftest
 from data.users import Users
 from data.locators import (
     MainPageLocators,
     SignInPageLocators,
     RegistrationPageLocators,
 )
+logger = logging.getLogger(__name__)
 
 
 class MainPage:
@@ -21,7 +24,7 @@ class MainPage:
         self.page.click(self.locators.SHOPPING_CART_BUTTON)
 
     def check_sidebar_is_present(self):
-        self.page.wait_for_url(conftest.base_url)
+        self.page.wait_for_url(self.locators.MAIN_PAGE_URL)
         return self.page.is_visible(self.locators.SIDEBAR_MENU)
 
 
