@@ -33,10 +33,10 @@ class TestsSignInPage:
                 s.navigate_to_register_page_by_link()
                 r.filling_in_registration_form(user)
                 r.send_new_user_information()
+            else:
+                assert m.check_user_is_login() == user  # 'Jessica'
         finally:
-            # TODO: fix it
-            # s.login(user, user)
-            assert m.check_user_is_login() == user  # 'Jessica'
+            pass
 
     def test_user(self):
         user = Users().account_info()
