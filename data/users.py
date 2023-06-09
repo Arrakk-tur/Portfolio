@@ -8,14 +8,16 @@ logger = logging.getLogger(__name__)
 class Users:
     fake = Faker()
 
+    static_user = "TestUser_Auto"
+
     def user_id(self) -> str:
         user_id = "TestUser_" + str(self.fake.random_number(digits=5))
-        logger.info("User ID: %s", user_id)
+        logger.info("Generated USER_ID: %s", user_id)
         return user_id
 
     def account_info(self) -> dict:
         ac_info = {
-            "first_name": self.fake.first_name(),
+            # "first_name": self.fake.first_name(),
             "last_name": self.fake.last_name(),
             "email": self.fake.email(),
             "phone": self.fake.phone_number(),

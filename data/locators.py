@@ -3,12 +3,15 @@ class MainPageLocators:
     SIDEBAR_MENU = "//div[@id='Sidebar']"
     SIGN_IN_BUTTON = "//div[@id='MenuContent']/a[text()='Sign In']"
     SHOPPING_CART_BUTTON = "//div[@id='MenuContent']/a[1]"
+    WELCOME_MESSAGE = "//div[@id='WelcomeContent']"
 
 
 class SignInPageLocators:
     REGISTER_BUTTON = "//a[contains(text(),'Register Now!')]"
     USERNAME_INPUT = "//input[@name='username']"
     PASSWORD_INPUT = "//input[@name='password']"
+    LOGIN_BUTTON = "//input[@name='signon']"
+    SIGN_ON_FAILED_MESSAGE = "//ul[@class='messages']"
 
 
 class RegistrationPageLocators:

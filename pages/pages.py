@@ -27,6 +27,13 @@ class MainPage:
         self.page.wait_for_url(self.locators.MAIN_PAGE_URL)
         return self.page.is_visible(self.locators.SIDEBAR_MENU)
 
+    def check_user_is_login(self) -> str:
+        self.page.wait_for_url(self.locators.MAIN_PAGE_URL)
+        welcome_text = self.page.inner_text(self.locators.WELCOME_MESSAGE)
+        name = welcome_text.removeprefix("Welcome ").removesuffix("!")
+        logger.info("NAME: %s", name)
+        return name
+
 
 class SignInPage:
     def __init__(self, page: Page):
@@ -39,8 +46,24 @@ class SignInPage:
     def input_text_to_password_field(self, password: str):
         self.page.fill(self.locators.PASSWORD_INPUT, password)
 
+    def click_login_button(self):
+        self.page.click(self.locators.LOGIN_BUTTON)
+
     def navigate_to_register_page_by_link(self):
         self.page.click(self.locators.REGISTER_BUTTON)
+
+    def sign_on_failed_message_is_visible(self):
+        return self.page.is_visible(self.locators.SIGN_ON_FAILED_MESSAGE)
+
+    def login(self, username: str, password: str):
+        """
+        Provide sign in user.
+        :param username:
+        :param password:
+        """
+        self.input_text_to_username_field(username)
+        self.input_text_to_password_field(password)
+        self.click_login_button()
 
 
 class RegistrationPage:
@@ -116,9 +139,16 @@ class RegistrationPage:
     def send_new_user_information(self):
         self.page.click(self.locators.SAVE_ACCOUNT_INFORMATION_BUTTON)
 
-    def filling_in_registration_form(self):
-        user_id = Users().user_id()
+    def filling_in_registration_form(self, user_id: None):
+        rand_user_id = Users().user_id()
         user = Users().account_info()
+
+        if user_id is None:
+            user_id = rand_user_id
+        else:
+            user_id = user_id
+
+        logger.info("Using USER_ID: %s", user_id)
 
     # User Information
 
@@ -128,7 +158,7 @@ class RegistrationPage:
 
     # Account Information
 
-        self.input_text_to_first_name_field(user["first_name"])
+        self.input_text_to_first_name_field(user_id)
         self.input_text_to_last_name_field(user["last_name"])
         self.input_text_to_email_field(user["email"])
         self.input_text_to_phone_field(user["phone"])
