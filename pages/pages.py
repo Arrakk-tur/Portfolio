@@ -49,6 +49,9 @@ class SignInPage:
     def click_login_button(self):
         self.page.click(self.locators.LOGIN_BUTTON)
 
+    def check_login_button_is_visible(self):
+        return self.page.is_visible(self.locators.LOGIN_BUTTON)
+
     def navigate_to_register_page_by_link(self):
         self.page.click(self.locators.REGISTER_BUTTON)
 
@@ -61,6 +64,8 @@ class SignInPage:
         :param username:
         :param password:
         """
+        logger.info("USERNAME: %s | PASSWORD: %s", username, password)
+
         self.input_text_to_username_field(username)
         self.input_text_to_password_field(password)
         self.click_login_button()
