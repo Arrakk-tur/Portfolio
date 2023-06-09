@@ -27,16 +27,14 @@ class TestsSignInPage:
         user = Users().static_user
 
         m.navigate_to_sign_in_page_by_header_menu()
-        try:
+        s.login(user, user)
+        if s.sign_on_failed_message_is_visible() is True:
+            s.navigate_to_register_page_by_link()
+            r.filling_in_registration_form(user)
+            r.send_new_user_information()
+            m.navigate_to_sign_in_page_by_header_menu()
             s.login(user, user)
-            if s.sign_on_failed_message_is_visible() is True:
-                s.navigate_to_register_page_by_link()
-                r.filling_in_registration_form(user)
-                r.send_new_user_information()
-            else:
-                assert m.check_user_is_login() == user  # 'Jessica'
-        finally:
-            pass
+        assert m.check_user_is_login() == user  # 'Jessica'
 
     def test_user(self):
         user = Users().account_info()
