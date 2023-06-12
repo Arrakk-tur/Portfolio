@@ -67,3 +67,12 @@ class TestsSignInPage:
         user = Users().account_info()
         np = str(user)
         print("first_name: " + np)
+
+
+class TestsOrder:
+
+    def test_add_item_to_shopping_cart(self, driver):
+        m = driver.main_page
+
+        m.navigate_to_reptile_category_by_sidebar_menu()
+        sleep(5)

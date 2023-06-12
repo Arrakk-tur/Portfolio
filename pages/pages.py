@@ -8,6 +8,7 @@ from data.locators import (
     MainPageLocators,
     SignInPageLocators,
     RegistrationPageLocators,
+    ReptileCategoryPageLocators,
 )
 logger = logging.getLogger(__name__)
 
@@ -22,6 +23,9 @@ class MainPage:
 
     def navigate_to_shopping_cart_page_by_header_menu(self):
         self.page.click(self.locators.SHOPPING_CART_BUTTON)
+
+    def navigate_to_reptile_category_by_sidebar_menu(self):
+        self.page.click(self.locators.REPTILES_CATEGORY_IN_SIDEBAR_MENU)
 
     def check_sidebar_is_present(self):
         self.page.wait_for_url(self.locators.MAIN_PAGE_URL)
@@ -180,3 +184,12 @@ class RegistrationPage:
         self.select_favourite_category("REPTILES")
         self.select_my_list()
         self.select_my_banner()
+
+
+class ReptileCategoryPage:
+    def __init__(self, page: Page):
+        self.locators = ReptileCategoryPageLocators
+        self.page = page
+
+    def navigate_to_product_page(self):
+        self.page.click()

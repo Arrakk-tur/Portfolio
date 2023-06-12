@@ -1,6 +1,10 @@
 class MainPageLocators:
     MAIN_PAGE_URL = "https://petstore.octoperf.com/actions/Catalog.action"
+
+    # SideBar Menu
     SIDEBAR_MENU = "//div[@id='Sidebar']"
+    REPTILES_CATEGORY_IN_SIDEBAR_MENU = "//div[@id='Sidebar']//a[contains(@href, 'REPTILES')]"
+
     SIGN_IN_BUTTON = "//div[@id='MenuContent']/a[text()='Sign In']"
     SHOPPING_CART_BUTTON = "//div[@id='MenuContent']/a[1]"
     WELCOME_MESSAGE = "//div[@id='WelcomeContent']"
@@ -43,3 +47,7 @@ class RegistrationPageLocators:
     MY_BANNER = "//input[@name='account.bannerOption']"
 
     SAVE_ACCOUNT_INFORMATION_BUTTON = "//input[@name='newAccount']"
+
+
+class ReptileCategoryPageLocators:
+    pass
