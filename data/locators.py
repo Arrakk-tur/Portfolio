@@ -50,4 +50,10 @@ class RegistrationPageLocators:
 
 
 class ReptileCategoryPageLocators:
-    pass
+    @staticmethod
+    def product_item_by_name(product_name: str):
+        return str(f"//td[..//td[text()='{product_name}']]/a")
+
+
+class ProductsPageLocators:
+    FIRST_PRODUCT_ADD_TO_CART_BUTTON = "//a[@class='Button'][1]"

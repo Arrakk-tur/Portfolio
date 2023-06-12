@@ -73,6 +73,10 @@ class TestsOrder:
 
     def test_add_item_to_shopping_cart(self, driver):
         m = driver.main_page
+        rc = driver.reptile_category_page
+        p = driver.products_page
 
         m.navigate_to_reptile_category_by_sidebar_menu()
+        rc.navigate_to_product_page_by_name("Iguana")
+        p.add_first_item_on_products_page()
         sleep(5)

@@ -9,6 +9,7 @@ from data.locators import (
     SignInPageLocators,
     RegistrationPageLocators,
     ReptileCategoryPageLocators,
+    ProductsPageLocators
 )
 logger = logging.getLogger(__name__)
 
@@ -191,5 +192,15 @@ class ReptileCategoryPage:
         self.locators = ReptileCategoryPageLocators
         self.page = page
 
-    def navigate_to_product_page(self):
-        self.page.click()
+    def navigate_to_product_page_by_name(self, product_name: str):
+        self.page.click(self.locators.product_item_by_name(product_name))
+
+
+class ProductsPage:
+    def __init__(self, page: Page):
+        self.locators = ProductsPageLocators
+        self.page = page
+
+    def add_first_item_on_products_page(self):
+        self.page.click(self.locators.FIRST_PRODUCT_ADD_TO_CART_BUTTON)
+
