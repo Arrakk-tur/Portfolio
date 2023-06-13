@@ -5,7 +5,8 @@ from pages.pages import (
     SignInPage,
     RegistrationPage,
     ReptileCategoryPage,
-    ProductsPage
+    ProductsPage,
+    ShoppingCartPage
 )
 
 
@@ -22,6 +23,7 @@ class App:
         self.registration_page = RegistrationPage(self.page)
         self.reptile_category_page = ReptileCategoryPage(self.page)
         self.products_page = ProductsPage(self.page)
+        self.shopping_cart_page = ShoppingCartPage(self.page)
 
     def goto(self, endpoint: str, use_base_url=True):
         if use_base_url:

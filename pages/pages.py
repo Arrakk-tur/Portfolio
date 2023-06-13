@@ -9,7 +9,8 @@ from data.locators import (
     SignInPageLocators,
     RegistrationPageLocators,
     ReptileCategoryPageLocators,
-    ProductsPageLocators
+    ProductsPageLocators,
+    ShoppingCartPageLocators
 )
 logger = logging.getLogger(__name__)
 
@@ -204,3 +205,36 @@ class ProductsPage:
     def add_first_item_on_products_page(self):
         self.page.click(self.locators.FIRST_PRODUCT_ADD_TO_CART_BUTTON)
 
+
+class ShoppingCartPage:
+    def __init__(self, page: Page):
+        self.locators = ShoppingCartPageLocators
+        self.page = page
+
+    def check_remove_button_is_visible(self):
+        return self.page.is_visible(self.locators.REMOVE_BUTTON)
+
+    def add_item_to_shopping_cart(self, product_name: str):
+        m = MainPage(self.page)
+        rc = ReptileCategoryPage(self.page)
+        p = ProductsPage(self.page)
+
+        m.navigate_to_reptile_category_by_sidebar_menu()
+        rc.navigate_to_product_page_by_name(product_name)
+        p.add_first_item_on_products_page()
+
+    def change_quantity(self, number: int):
+        self.page.fill(self.locators.INPUT_QUANTITY, str(number))
+
+    def get_list_price(self) -> str:
+        value = self.page.inner_text(self.locators.LIST_PRICE)
+        logger.info("LIST_PRICE: %s", value)
+        return value
+
+    def get_total_coast(self) -> str:
+        value = self.page.inner_text(self.locators.TOTAL_COAST)
+        logger.info("TOTAL_COAST: %s", value)
+        return value
+
+    def click_update_cart(self):
+        self.page.click(self.locators.UPDATE_CART_BUTTON)

@@ -57,3 +57,12 @@ class ReptileCategoryPageLocators:
 
 class ProductsPageLocators:
     FIRST_PRODUCT_ADD_TO_CART_BUTTON = "//a[@class='Button'][1]"
+
+
+class ShoppingCartPageLocators:
+    REMOVE_BUTTON = "//a[@class='Button' and text()='Remove']"
+    UPDATE_CART_BUTTON = "//input[@name='updateCartQuantities']"
+    PROCEED_TO_CHECKOUT_BUTTON = "//div[@id='Cart']/a[@class='Button']"
+    LIST_PRICE = "//td[contains(text(), '$')][..//td/input[@size]][1]"
+    TOTAL_COAST = "//td[contains(text(), '$')][..//td/input[@size]][2]"
+    INPUT_QUANTITY = "//td/input[@size]"

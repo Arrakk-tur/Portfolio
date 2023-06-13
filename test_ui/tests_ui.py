@@ -63,10 +63,10 @@ class TestsSignInPage:
         s.login(username, password)
         assert s.check_login_button_is_visible() is True
 
-    def test_user(self):
-        user = Users().account_info()
-        np = str(user)
-        print("first_name: " + np)
+    # def test_user(self):
+    #     user = Users().account_info()
+    #     np = str(user)
+    #     print("first_name: " + np)
 
 
 class TestsOrder:
@@ -75,8 +75,23 @@ class TestsOrder:
         m = driver.main_page
         rc = driver.reptile_category_page
         p = driver.products_page
+        s = driver.shopping_cart_page
 
         m.navigate_to_reptile_category_by_sidebar_menu()
         rc.navigate_to_product_page_by_name("Iguana")
         p.add_first_item_on_products_page()
-        sleep(5)
+        assert s.check_remove_button_is_visible() is True
+
+    def test_change_item_quantity_in_shopping_cart(self, driver):
+        s = driver.shopping_cart_page
+
+        s.add_item_to_shopping_cart("Iguana")
+
+        total_coast = s.get_total_coast()
+
+        s.change_quantity(2)
+        s.click_update_cart()
+
+        updated_total_coast = s.get_total_coast()
+
+        assert total_coast != updated_total_coast
