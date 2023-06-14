@@ -73,4 +73,8 @@ class NewOrderFormPageLocators:
 
 
 class OrderFormPageLocators:
-    CONFIRM_BUTTON = "//a[@class='Button' and text()='Confirm']"     # Order #114274 2023/06/14 09:17:35
+    CONFIRM_BUTTON = "//a[@class='Button' and text()='Confirm']"
+
+
+class ConfirmedOrderFormPageLocators:
+    ORDER_HEADER = "//th[starts-with(text(), 'Order #')]"     # Order #114274 2023/06/14 09:17:35

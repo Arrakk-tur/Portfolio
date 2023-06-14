@@ -107,7 +107,14 @@ class TestsOrder:
     def test_checkout_an_order_from_the_shopping_cart(self, driver):
         sc = driver.shopping_cart_page
         s = driver.sign_in_page
+        no = driver.new_order_form_page
+        o = driver.order_form_page
+        co = driver.confirmed_order_form_page
 
         s.login_by_static_user()
         sc.add_item_to_shopping_cart("Iguana")
         sc.click_proceed_to_checkout_button()
+        no.click_continue_button()
+        o.click_confirm_button()
+
+        assert co.check_order_header_is_visible() is True

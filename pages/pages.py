@@ -1,4 +1,5 @@
 import logging
+import re
 
 import pytest
 from playwright.sync_api import Page
@@ -10,7 +11,10 @@ from data.locators import (
     RegistrationPageLocators,
     ReptileCategoryPageLocators,
     ProductsPageLocators,
-    ShoppingCartPageLocators
+    ShoppingCartPageLocators,
+    NewOrderFormPageLocators,
+    OrderFormPageLocators,
+    ConfirmedOrderFormPageLocators
 )
 logger = logging.getLogger(__name__)
 
@@ -258,3 +262,37 @@ class ShoppingCartPage:
 
     def click_proceed_to_checkout_button(self):
         self.page.click(self.locators.PROCEED_TO_CHECKOUT_BUTTON)
+
+
+class NewOrderFormPage:
+    def __init__(self, page: Page):
+        self.locators = NewOrderFormPageLocators
+        self.page = page
+
+    def click_continue_button(self):
+        self.page.click(self.locators.CONTINUE_BUTTON)
+
+
+class OrderFormPage:
+    def __init__(self, page: Page):
+        self.locators = OrderFormPageLocators
+        self.page = page
+
+    def click_confirm_button(self):
+        self.page.click(self.locators.CONFIRM_BUTTON)
+
+
+class ConfirmedOrderFormPage:
+    def __init__(self, page: Page):
+        self.locators = ConfirmedOrderFormPageLocators
+        self.page = page
+
+    def check_order_header_is_visible(self):
+        return self.page.is_visible(self.locators.ORDER_HEADER)
+
+    def get_order_number(self) -> str:
+        value = self.page.inner_text(self.locators.ORDER_HEADER)
+        order_number = value.removeprefix("Order #")[:20]
+        logger.info("ORDER_HEADER: %s", value)
+        logger.info("ORDER_NUMBER: %s", order_number)
+        return value

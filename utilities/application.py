@@ -6,7 +6,10 @@ from pages.pages import (
     RegistrationPage,
     ReptileCategoryPage,
     ProductsPage,
-    ShoppingCartPage
+    ShoppingCartPage,
+    NewOrderFormPage,
+    OrderFormPage,
+    ConfirmedOrderFormPage
 )
 
 
@@ -24,6 +27,9 @@ class App:
         self.reptile_category_page = ReptileCategoryPage(self.page)
         self.products_page = ProductsPage(self.page)
         self.shopping_cart_page = ShoppingCartPage(self.page)
+        self.new_order_form_page = NewOrderFormPage(self.page)
+        self.order_form_page = OrderFormPage(self.page)
+        self.confirmed_order_form_page = ConfirmedOrderFormPage(self.page)
 
     def goto(self, endpoint: str, use_base_url=True):
         if use_base_url:
