@@ -66,3 +66,11 @@ class ShoppingCartPageLocators:
     LIST_PRICE = "//td[contains(text(), '$')][..//td/input[@size]][1]"
     TOTAL_COAST = "//td[contains(text(), '$')][..//td/input[@size]][2]"
     INPUT_QUANTITY = "//td/input[@size]"
+
+
+class NewOrderFormPageLocators:
+    CONTINUE_BUTTON = "//input[@name='newOrder']"
+
+
+class OrderFormPageLocators:
+    CONFIRM_BUTTON = "//a[@class='Button' and text()='Confirm']"     # Order #114274 2023/06/14 09:17:35

@@ -76,6 +76,20 @@ class SignInPage:
         self.input_text_to_password_field(password)
         self.click_login_button()
 
+    def login_by_static_user(self):
+        m = MainPage(self.page)
+        r = RegistrationPage(self.page)
+        user = Users().static_user
+
+        m.navigate_to_sign_in_page_by_header_menu()
+        self.login(user, user)
+        if self.sign_on_failed_message_is_visible() is True:
+            self.navigate_to_register_page_by_link()
+            r.filling_in_registration_form(user)
+            r.send_new_user_information()
+            m.navigate_to_sign_in_page_by_header_menu()
+            self.login(user, user)
+
 
 class RegistrationPage:
     def __init__(self, page: Page):
@@ -214,6 +228,9 @@ class ShoppingCartPage:
     def check_remove_button_is_visible(self):
         return self.page.is_visible(self.locators.REMOVE_BUTTON)
 
+    def click_remove_button(self):
+        self.page.click(self.locators.REMOVE_BUTTON)
+
     def add_item_to_shopping_cart(self, product_name: str):
         m = MainPage(self.page)
         rc = ReptileCategoryPage(self.page)
@@ -238,3 +255,6 @@ class ShoppingCartPage:
 
     def click_update_cart(self):
         self.page.click(self.locators.UPDATE_CART_BUTTON)
+
+    def click_proceed_to_checkout_button(self):
+        self.page.click(self.locators.PROCEED_TO_CHECKOUT_BUTTON)

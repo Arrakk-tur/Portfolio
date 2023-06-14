@@ -95,3 +95,19 @@ class TestsOrder:
         updated_total_coast = s.get_total_coast()
 
         assert total_coast != updated_total_coast
+
+    def test_delete_item_from_shopping_cart(self, driver):
+        s = driver.shopping_cart_page
+
+        s.add_item_to_shopping_cart("Iguana")
+        s.click_remove_button()
+
+        assert s.check_remove_button_is_visible() is False
+
+    def test_checkout_an_order_from_the_shopping_cart(self, driver):
+        sc = driver.shopping_cart_page
+        s = driver.sign_in_page
+
+        s.login_by_static_user()
+        sc.add_item_to_shopping_cart("Iguana")
+        sc.click_proceed_to_checkout_button()
