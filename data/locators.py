@@ -5,8 +5,12 @@ class MainPageLocators:
     SIDEBAR_MENU = "//div[@id='Sidebar']"
     REPTILES_CATEGORY_IN_SIDEBAR_MENU = "//div[@id='Sidebar']//a[contains(@href, 'REPTILES')]"
 
+    # Header Menu
     SIGN_IN_BUTTON = "//div[@id='MenuContent']/a[text()='Sign In']"
     SHOPPING_CART_BUTTON = "//div[@id='MenuContent']/a[1]"
+    MY_ACCOUNT_BUTTON = "//div[@id='MenuContent']/a[text()='My Account']"
+
+    # Main Page Content
     WELCOME_MESSAGE = "//div[@id='WelcomeContent']"
 
 
@@ -78,3 +82,11 @@ class OrderFormPageLocators:
 
 class ConfirmedOrderFormPageLocators:
     ORDER_HEADER = "//th[starts-with(text(), 'Order #')]"     # Order #114274 2023/06/14 09:17:35
+
+
+class MyAccountPageLocators:
+    MY_ORDERS_BUTTON = "//div[@id='Catalog']/a[text()='My Orders']"
+
+
+class MyOrdersPageLocators:
+    ORDER_ID = "//div[@id='Content']//td/a"

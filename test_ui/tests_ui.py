@@ -118,3 +118,17 @@ class TestsOrder:
         o.click_confirm_button()
 
         assert co.check_order_header_is_visible() is True
+
+    def test_viewing_order_information(self, driver):
+        m = driver.main_page
+        sc = driver.shopping_cart_page
+        co = driver.confirmed_order_form_page
+        ma = driver.my_account_page
+        mo = driver.my_order_page
+
+        sc.create_new_order()
+        order_number = co.get_order_number()
+        m.navigate_to_my_account_page_by_header_menu()
+        ma.navigate_to_my_orders_page_by_header_menu()
+        assert mo.search_order_number_in_orders_list(order_number) is True
+

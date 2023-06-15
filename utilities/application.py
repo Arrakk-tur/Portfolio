@@ -9,7 +9,9 @@ from pages.pages import (
     ShoppingCartPage,
     NewOrderFormPage,
     OrderFormPage,
-    ConfirmedOrderFormPage
+    ConfirmedOrderFormPage,
+    MyAccountPage,
+    MyOrdersPage
 )
 
 
@@ -30,6 +32,8 @@ class App:
         self.new_order_form_page = NewOrderFormPage(self.page)
         self.order_form_page = OrderFormPage(self.page)
         self.confirmed_order_form_page = ConfirmedOrderFormPage(self.page)
+        self.my_account_page = MyAccountPage(self.page)
+        self.my_order_page = MyOrdersPage(self.page)
 
     def goto(self, endpoint: str, use_base_url=True):
         if use_base_url:

@@ -14,8 +14,11 @@ from data.locators import (
     ShoppingCartPageLocators,
     NewOrderFormPageLocators,
     OrderFormPageLocators,
-    ConfirmedOrderFormPageLocators
+    ConfirmedOrderFormPageLocators,
+    MyAccountPageLocators,
+    MyOrdersPageLocators
 )
+
 logger = logging.getLogger(__name__)
 
 
@@ -29,6 +32,9 @@ class MainPage:
 
     def navigate_to_shopping_cart_page_by_header_menu(self):
         self.page.click(self.locators.SHOPPING_CART_BUTTON)
+
+    def navigate_to_my_account_page_by_header_menu(self):
+        self.page.click(self.locators.MY_ACCOUNT_BUTTON)
 
     def navigate_to_reptile_category_by_sidebar_menu(self):
         self.page.click(self.locators.REPTILES_CATEGORY_IN_SIDEBAR_MENU)
@@ -179,13 +185,13 @@ class RegistrationPage:
 
         logger.info("Using USER_ID: %s", user_id)
 
-    # User Information
+        # User Information
 
         self.input_text_to_user_id_field(user_id)
         self.input_text_to_new_password_field(user_id)
         self.input_text_to_repeat_password_field(user_id)
 
-    # Account Information
+        # Account Information
 
         self.input_text_to_first_name_field(user_id)
         self.input_text_to_last_name_field(user["last_name"])
@@ -198,7 +204,7 @@ class RegistrationPage:
         self.input_text_to_zip_field(user["zip_code"])
         self.input_text_to_country_field(user["country"])
 
-    # Profile Information
+        # Profile Information
 
         self.select_language("english")
         self.select_favourite_category("REPTILES")
@@ -263,6 +269,19 @@ class ShoppingCartPage:
     def click_proceed_to_checkout_button(self):
         self.page.click(self.locators.PROCEED_TO_CHECKOUT_BUTTON)
 
+    def create_new_order(self):
+        si = SignInPage(self.page)
+        sc = ShoppingCartPage(self.page)
+        no = NewOrderFormPage(self.page)
+        o = OrderFormPage(self.page)
+        co = ConfirmedOrderFormPage(self.page)
+
+        si.login_by_static_user()
+        sc.add_item_to_shopping_cart("Iguana")
+        sc.click_proceed_to_checkout_button()
+        no.click_continue_button()
+        o.click_confirm_button()
+
 
 class NewOrderFormPage:
     def __init__(self, page: Page):
@@ -291,8 +310,34 @@ class ConfirmedOrderFormPage:
         return self.page.is_visible(self.locators.ORDER_HEADER)
 
     def get_order_number(self) -> str:
-        value = self.page.inner_text(self.locators.ORDER_HEADER)
-        order_number = value.removeprefix("Order #")[:20]
-        logger.info("ORDER_HEADER: %s", value)
+        order_header = self.page.inner_text(self.locators.ORDER_HEADER)
+        order_number = order_header.removeprefix("Order #")[:-20]
+        logger.info("ORDER_HEADER: %s", order_header)
         logger.info("ORDER_NUMBER: %s", order_number)
-        return value
+        return order_number
+
+
+class MyAccountPage:
+    def __init__(self, page: Page):
+        self.locators = MyAccountPageLocators
+        self.page = page
+
+    def navigate_to_my_orders_page_by_header_menu(self):
+        self.page.click(self.locators.MY_ORDERS_BUTTON)
+
+
+class MyOrdersPage:
+    def __init__(self, page: Page):
+        self.locators = MyOrdersPageLocators
+        self.page = page
+
+    def search_order_number_in_orders_list(self, order_number: str):
+        order_id_list = []
+        order_ids = self.page.query_selector_all(self.locators.ORDER_ID)
+        for i in order_ids:
+            order_id_list.append(i.inner_text())
+
+        result = any(order_number in order_id_list for order_number in order_id_list)
+        logger.info("ORDER_ID_LIST: %s", order_id_list)
+        logger.info("Is ORDER_NUMBER in ORDER_ID_LIST: %s", result)
+        return result
