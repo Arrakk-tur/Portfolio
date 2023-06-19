@@ -9,7 +9,7 @@ from pages.pages import (
     ShoppingCartPage,
     NewOrderFormPage,
     OrderFormPage,
-    ConfirmedOrderFormPage,
+    OrderPage,
     MyAccountPage,
     MyOrdersPage
 )
@@ -31,7 +31,7 @@ class App:
         self.shopping_cart_page = ShoppingCartPage(self.page)
         self.new_order_form_page = NewOrderFormPage(self.page)
         self.order_form_page = OrderFormPage(self.page)
-        self.confirmed_order_form_page = ConfirmedOrderFormPage(self.page)
+        self.order_page = OrderPage(self.page)
         self.my_account_page = MyAccountPage(self.page)
         self.my_order_page = MyOrdersPage(self.page)
 

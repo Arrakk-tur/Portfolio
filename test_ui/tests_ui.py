@@ -63,11 +63,6 @@ class TestsSignInPage:
         s.login(username, password)
         assert s.check_login_button_is_visible() is True
 
-    # def test_user(self):
-    #     user = Users().account_info()
-    #     np = str(user)
-    #     print("first_name: " + np)
-
 
 class TestsOrder:
 
@@ -108,27 +103,31 @@ class TestsOrder:
         sc = driver.shopping_cart_page
         s = driver.sign_in_page
         no = driver.new_order_form_page
-        o = driver.order_form_page
-        co = driver.confirmed_order_form_page
+        of = driver.order_form_page
+        o = driver.order_page
 
         s.login_by_static_user()
         sc.add_item_to_shopping_cart("Iguana")
         sc.click_proceed_to_checkout_button()
         no.click_continue_button()
-        o.click_confirm_button()
+        of.click_confirm_button()
 
-        assert co.check_order_header_is_visible() is True
+        assert o.check_order_header_is_visible() is True
 
     def test_viewing_order_information(self, driver):
         m = driver.main_page
         sc = driver.shopping_cart_page
-        co = driver.confirmed_order_form_page
+        o = driver.order_page
         ma = driver.my_account_page
         mo = driver.my_order_page
 
         sc.create_new_order()
-        order_number = co.get_order_number()
+        order_header = o.get_order_header()
+        created_order_header = o.normalize_order_header(order_header)
+        order_number = o.get_order_number()
         m.navigate_to_my_account_page_by_header_menu()
         ma.navigate_to_my_orders_page_by_header_menu()
-        assert mo.search_order_number_in_orders_list(order_number) is True
+        mo.navigate_to_order_by_number(order_number)
+        current_order_header = o.get_order_header()
 
+        assert created_order_header == current_order_header

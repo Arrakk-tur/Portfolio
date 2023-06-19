@@ -14,7 +14,7 @@ from data.locators import (
     ShoppingCartPageLocators,
     NewOrderFormPageLocators,
     OrderFormPageLocators,
-    ConfirmedOrderFormPageLocators,
+    OrderPageLocators,
     MyAccountPageLocators,
     MyOrdersPageLocators
 )
@@ -47,7 +47,7 @@ class MainPage:
         self.page.wait_for_url(self.locators.MAIN_PAGE_URL)
         welcome_text = self.page.inner_text(self.locators.WELCOME_MESSAGE)
         name = welcome_text.removeprefix("Welcome ").removesuffix("!")
-        logger.info("NAME: %s", name)
+        logger.info("Verified NAME: %s", name)
         return name
 
 
@@ -174,7 +174,7 @@ class RegistrationPage:
     def send_new_user_information(self):
         self.page.click(self.locators.SAVE_ACCOUNT_INFORMATION_BUTTON)
 
-    def filling_in_registration_form(self, user_id: None):
+    def filling_in_registration_form(self, user_id: str = None):
         rand_user_id = Users().user_id()
         user = Users().account_info()
 
@@ -273,14 +273,13 @@ class ShoppingCartPage:
         si = SignInPage(self.page)
         sc = ShoppingCartPage(self.page)
         no = NewOrderFormPage(self.page)
-        o = OrderFormPage(self.page)
-        co = ConfirmedOrderFormPage(self.page)
+        of = OrderFormPage(self.page)
 
         si.login_by_static_user()
         sc.add_item_to_shopping_cart("Iguana")
         sc.click_proceed_to_checkout_button()
         no.click_continue_button()
-        o.click_confirm_button()
+        of.click_confirm_button()
 
 
 class NewOrderFormPage:
@@ -301,13 +300,24 @@ class OrderFormPage:
         self.page.click(self.locators.CONFIRM_BUTTON)
 
 
-class ConfirmedOrderFormPage:
+class OrderPage:
     def __init__(self, page: Page):
-        self.locators = ConfirmedOrderFormPageLocators
+        self.locators = OrderPageLocators
         self.page = page
 
     def check_order_header_is_visible(self):
         return self.page.is_visible(self.locators.ORDER_HEADER)
+
+    def get_order_header(self):
+        order_header = self.page.inner_text(self.locators.ORDER_HEADER)
+        logger.info("ORDER_HEADER: %s", order_header)
+        return order_header
+
+    def normalize_order_header(self, order_header: str) -> str:
+        order_time = order_header[-8:]
+        normalized_order_header = order_header.replace(order_time, "12:00:00", 1)
+        logger.info("Normalized ORDER_HEADER: %s", normalized_order_header)
+        return normalized_order_header
 
     def get_order_number(self) -> str:
         order_header = self.page.inner_text(self.locators.ORDER_HEADER)
@@ -330,6 +340,9 @@ class MyOrdersPage:
     def __init__(self, page: Page):
         self.locators = MyOrdersPageLocators
         self.page = page
+
+    def navigate_to_order_by_number(self, order_number: str):
+        self.page.click(self.locators.order_id_by_number(order_number))
 
     def search_order_number_in_orders_list(self, order_number: str):
         order_id_list = []

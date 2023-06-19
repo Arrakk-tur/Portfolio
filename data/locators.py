@@ -55,7 +55,7 @@ class RegistrationPageLocators:
 
 class ReptileCategoryPageLocators:
     @staticmethod
-    def product_item_by_name(product_name: str):
+    def product_item_by_name(product_name: str) -> str:
         return str(f"//td[..//td[text()='{product_name}']]/a")
 
 
@@ -80,7 +80,7 @@ class OrderFormPageLocators:
     CONFIRM_BUTTON = "//a[@class='Button' and text()='Confirm']"
 
 
-class ConfirmedOrderFormPageLocators:
+class OrderPageLocators:
     ORDER_HEADER = "//th[starts-with(text(), 'Order #')]"     # Order #114274 2023/06/14 09:17:35
 
 
@@ -89,4 +89,8 @@ class MyAccountPageLocators:
 
 
 class MyOrdersPageLocators:
+    @staticmethod
+    def order_id_by_number(order_number: str) -> str:
+        return str(f"//div[@id='Content']//td/a[text()='{order_number}']")
+
     ORDER_ID = "//div[@id='Content']//td/a"
