@@ -1,8 +1,16 @@
 class MainPageLocators:
     MAIN_PAGE_URL = "https://petstore.octoperf.com/actions/Catalog.action"
+
+    # SideBar Menu
     SIDEBAR_MENU = "//div[@id='Sidebar']"
+    REPTILES_CATEGORY_IN_SIDEBAR_MENU = "//div[@id='Sidebar']//a[contains(@href, 'REPTILES')]"
+
+    # Header Menu
     SIGN_IN_BUTTON = "//div[@id='MenuContent']/a[text()='Sign In']"
     SHOPPING_CART_BUTTON = "//div[@id='MenuContent']/a[1]"
+    MY_ACCOUNT_BUTTON = "//div[@id='MenuContent']/a[text()='My Account']"
+
+    # Main Page Content
     WELCOME_MESSAGE = "//div[@id='WelcomeContent']"
 
 
@@ -43,3 +51,46 @@ class RegistrationPageLocators:
     MY_BANNER = "//input[@name='account.bannerOption']"
 
     SAVE_ACCOUNT_INFORMATION_BUTTON = "//input[@name='newAccount']"
+
+
+class ReptileCategoryPageLocators:
+    @staticmethod
+    def product_item_by_name(product_name: str) -> str:
+        return str(f"//td[..//td[text()='{product_name}']]/a")
+
+
+class ProductsPageLocators:
+    FIRST_PRODUCT_ADD_TO_CART_BUTTON = "//a[@class='Button'][1]"
+
+
+class ShoppingCartPageLocators:
+    REMOVE_BUTTON = "//a[@class='Button' and text()='Remove']"
+    UPDATE_CART_BUTTON = "//input[@name='updateCartQuantities']"
+    PROCEED_TO_CHECKOUT_BUTTON = "//div[@id='Cart']/a[@class='Button']"
+    LIST_PRICE = "//td[contains(text(), '$')][..//td/input[@size]][1]"
+    TOTAL_COAST = "//td[contains(text(), '$')][..//td/input[@size]][2]"
+    INPUT_QUANTITY = "//td/input[@size]"
+
+
+class NewOrderFormPageLocators:
+    CONTINUE_BUTTON = "//input[@name='newOrder']"
+
+
+class OrderFormPageLocators:
+    CONFIRM_BUTTON = "//a[@class='Button' and text()='Confirm']"
+
+
+class OrderPageLocators:
+    ORDER_HEADER = "//th[starts-with(text(), 'Order #')]"     # Order #114274 2023/06/14 09:17:35
+
+
+class MyAccountPageLocators:
+    MY_ORDERS_BUTTON = "//div[@id='Catalog']/a[text()='My Orders']"
+
+
+class MyOrdersPageLocators:
+    @staticmethod
+    def order_id_by_number(order_number: str) -> str:
+        return str(f"//div[@id='Content']//td/a[text()='{order_number}']")
+
+    ORDER_ID = "//div[@id='Content']//td/a"

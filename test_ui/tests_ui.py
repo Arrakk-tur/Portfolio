@@ -63,7 +63,71 @@ class TestsSignInPage:
         s.login(username, password)
         assert s.check_login_button_is_visible() is True
 
-    def test_user(self):
-        user = Users().account_info()
-        np = str(user)
-        print("first_name: " + np)
+
+class TestsOrder:
+
+    def test_add_item_to_shopping_cart(self, driver):
+        m = driver.main_page
+        rc = driver.reptile_category_page
+        p = driver.products_page
+        s = driver.shopping_cart_page
+
+        m.navigate_to_reptile_category_by_sidebar_menu()
+        rc.navigate_to_product_page_by_name("Iguana")
+        p.add_first_item_on_products_page()
+        assert s.check_remove_button_is_visible() is True
+
+    def test_change_item_quantity_in_shopping_cart(self, driver):
+        s = driver.shopping_cart_page
+
+        s.add_item_to_shopping_cart("Iguana")
+
+        total_coast = s.get_total_coast()
+
+        s.change_quantity(2)
+        s.click_update_cart()
+
+        updated_total_coast = s.get_total_coast()
+
+        assert total_coast != updated_total_coast
+
+    def test_delete_item_from_shopping_cart(self, driver):
+        s = driver.shopping_cart_page
+
+        s.add_item_to_shopping_cart("Iguana")
+        s.click_remove_button()
+
+        assert s.check_remove_button_is_visible() is False
+
+    def test_checkout_an_order_from_the_shopping_cart(self, driver):
+        sc = driver.shopping_cart_page
+        s = driver.sign_in_page
+        no = driver.new_order_form_page
+        of = driver.order_form_page
+        o = driver.order_page
+
+        s.login_by_static_user()
+        sc.add_item_to_shopping_cart("Iguana")
+        sc.click_proceed_to_checkout_button()
+        no.click_continue_button()
+        of.click_confirm_button()
+
+        assert o.check_order_header_is_visible() is True
+
+    def test_viewing_order_information(self, driver):
+        m = driver.main_page
+        sc = driver.shopping_cart_page
+        o = driver.order_page
+        ma = driver.my_account_page
+        mo = driver.my_order_page
+
+        sc.create_new_order()
+        order_header = o.get_order_header()
+        created_order_header = o.normalize_order_header(order_header)
+        order_number = o.get_order_number()
+        m.navigate_to_my_account_page_by_header_menu()
+        ma.navigate_to_my_orders_page_by_header_menu()
+        mo.navigate_to_order_by_number(order_number)
+        current_order_header = o.get_order_header()
+
+        assert created_order_header == current_order_header

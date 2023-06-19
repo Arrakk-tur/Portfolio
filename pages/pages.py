@@ -1,4 +1,5 @@
 import logging
+import re
 
 import pytest
 from playwright.sync_api import Page
@@ -8,7 +9,16 @@ from data.locators import (
     MainPageLocators,
     SignInPageLocators,
     RegistrationPageLocators,
+    ReptileCategoryPageLocators,
+    ProductsPageLocators,
+    ShoppingCartPageLocators,
+    NewOrderFormPageLocators,
+    OrderFormPageLocators,
+    OrderPageLocators,
+    MyAccountPageLocators,
+    MyOrdersPageLocators
 )
+
 logger = logging.getLogger(__name__)
 
 
@@ -23,6 +33,12 @@ class MainPage:
     def navigate_to_shopping_cart_page_by_header_menu(self):
         self.page.click(self.locators.SHOPPING_CART_BUTTON)
 
+    def navigate_to_my_account_page_by_header_menu(self):
+        self.page.click(self.locators.MY_ACCOUNT_BUTTON)
+
+    def navigate_to_reptile_category_by_sidebar_menu(self):
+        self.page.click(self.locators.REPTILES_CATEGORY_IN_SIDEBAR_MENU)
+
     def check_sidebar_is_present(self):
         self.page.wait_for_url(self.locators.MAIN_PAGE_URL)
         return self.page.is_visible(self.locators.SIDEBAR_MENU)
@@ -31,7 +47,7 @@ class MainPage:
         self.page.wait_for_url(self.locators.MAIN_PAGE_URL)
         welcome_text = self.page.inner_text(self.locators.WELCOME_MESSAGE)
         name = welcome_text.removeprefix("Welcome ").removesuffix("!")
-        logger.info("NAME: %s", name)
+        logger.info("Verified NAME: %s", name)
         return name
 
 
@@ -69,6 +85,20 @@ class SignInPage:
         self.input_text_to_username_field(username)
         self.input_text_to_password_field(password)
         self.click_login_button()
+
+    def login_by_static_user(self):
+        m = MainPage(self.page)
+        r = RegistrationPage(self.page)
+        user = Users().static_user
+
+        m.navigate_to_sign_in_page_by_header_menu()
+        self.login(user, user)
+        if self.sign_on_failed_message_is_visible() is True:
+            self.navigate_to_register_page_by_link()
+            r.filling_in_registration_form(user)
+            r.send_new_user_information()
+            m.navigate_to_sign_in_page_by_header_menu()
+            self.login(user, user)
 
 
 class RegistrationPage:
@@ -144,7 +174,7 @@ class RegistrationPage:
     def send_new_user_information(self):
         self.page.click(self.locators.SAVE_ACCOUNT_INFORMATION_BUTTON)
 
-    def filling_in_registration_form(self, user_id: None):
+    def filling_in_registration_form(self, user_id: str = None):
         rand_user_id = Users().user_id()
         user = Users().account_info()
 
@@ -155,13 +185,13 @@ class RegistrationPage:
 
         logger.info("Using USER_ID: %s", user_id)
 
-    # User Information
+        # User Information
 
         self.input_text_to_user_id_field(user_id)
         self.input_text_to_new_password_field(user_id)
         self.input_text_to_repeat_password_field(user_id)
 
-    # Account Information
+        # Account Information
 
         self.input_text_to_first_name_field(user_id)
         self.input_text_to_last_name_field(user["last_name"])
@@ -174,9 +204,153 @@ class RegistrationPage:
         self.input_text_to_zip_field(user["zip_code"])
         self.input_text_to_country_field(user["country"])
 
-    # Profile Information
+        # Profile Information
 
         self.select_language("english")
         self.select_favourite_category("REPTILES")
         self.select_my_list()
         self.select_my_banner()
+
+
+class ReptileCategoryPage:
+    def __init__(self, page: Page):
+        self.locators = ReptileCategoryPageLocators
+        self.page = page
+
+    def navigate_to_product_page_by_name(self, product_name: str):
+        self.page.click(self.locators.product_item_by_name(product_name))
+
+
+class ProductsPage:
+    def __init__(self, page: Page):
+        self.locators = ProductsPageLocators
+        self.page = page
+
+    def add_first_item_on_products_page(self):
+        self.page.click(self.locators.FIRST_PRODUCT_ADD_TO_CART_BUTTON)
+
+
+class ShoppingCartPage:
+    def __init__(self, page: Page):
+        self.locators = ShoppingCartPageLocators
+        self.page = page
+
+    def check_remove_button_is_visible(self):
+        return self.page.is_visible(self.locators.REMOVE_BUTTON)
+
+    def click_remove_button(self):
+        self.page.click(self.locators.REMOVE_BUTTON)
+
+    def add_item_to_shopping_cart(self, product_name: str):
+        m = MainPage(self.page)
+        rc = ReptileCategoryPage(self.page)
+        p = ProductsPage(self.page)
+
+        m.navigate_to_reptile_category_by_sidebar_menu()
+        rc.navigate_to_product_page_by_name(product_name)
+        p.add_first_item_on_products_page()
+
+    def change_quantity(self, number: int):
+        self.page.fill(self.locators.INPUT_QUANTITY, str(number))
+
+    def get_list_price(self) -> str:
+        value = self.page.inner_text(self.locators.LIST_PRICE)
+        logger.info("LIST_PRICE: %s", value)
+        return value
+
+    def get_total_coast(self) -> str:
+        value = self.page.inner_text(self.locators.TOTAL_COAST)
+        logger.info("TOTAL_COAST: %s", value)
+        return value
+
+    def click_update_cart(self):
+        self.page.click(self.locators.UPDATE_CART_BUTTON)
+
+    def click_proceed_to_checkout_button(self):
+        self.page.click(self.locators.PROCEED_TO_CHECKOUT_BUTTON)
+
+    def create_new_order(self):
+        si = SignInPage(self.page)
+        sc = ShoppingCartPage(self.page)
+        no = NewOrderFormPage(self.page)
+        of = OrderFormPage(self.page)
+
+        si.login_by_static_user()
+        sc.add_item_to_shopping_cart("Iguana")
+        sc.click_proceed_to_checkout_button()
+        no.click_continue_button()
+        of.click_confirm_button()
+
+
+class NewOrderFormPage:
+    def __init__(self, page: Page):
+        self.locators = NewOrderFormPageLocators
+        self.page = page
+
+    def click_continue_button(self):
+        self.page.click(self.locators.CONTINUE_BUTTON)
+
+
+class OrderFormPage:
+    def __init__(self, page: Page):
+        self.locators = OrderFormPageLocators
+        self.page = page
+
+    def click_confirm_button(self):
+        self.page.click(self.locators.CONFIRM_BUTTON)
+
+
+class OrderPage:
+    def __init__(self, page: Page):
+        self.locators = OrderPageLocators
+        self.page = page
+
+    def check_order_header_is_visible(self):
+        return self.page.is_visible(self.locators.ORDER_HEADER)
+
+    def get_order_header(self):
+        order_header = self.page.inner_text(self.locators.ORDER_HEADER)
+        logger.info("ORDER_HEADER: %s", order_header)
+        return order_header
+
+    def normalize_order_header(self, order_header: str) -> str:
+        order_time = order_header[-8:]
+        normalized_order_header = order_header.replace(order_time, "12:00:00", 1)
+        logger.info("Normalized ORDER_HEADER: %s", normalized_order_header)
+        return normalized_order_header
+
+    def get_order_number(self) -> str:
+        order_header = self.page.inner_text(self.locators.ORDER_HEADER)
+        order_number = order_header.removeprefix("Order #")[:-20]
+        logger.info("ORDER_HEADER: %s", order_header)
+        logger.info("ORDER_NUMBER: %s", order_number)
+        return order_number
+
+
+class MyAccountPage:
+    def __init__(self, page: Page):
+        self.locators = MyAccountPageLocators
+        self.page = page
+
+    def navigate_to_my_orders_page_by_header_menu(self):
+        self.page.click(self.locators.MY_ORDERS_BUTTON)
+
+
+class MyOrdersPage:
+    def __init__(self, page: Page):
+        self.locators = MyOrdersPageLocators
+        self.page = page
+
+    def navigate_to_order_by_number(self, order_number: str):
+        self.page.click(self.locators.order_id_by_number(order_number))
+
+    def search_order_number_in_orders_list(self, order_number: str):
+        order_id_list = []
+        order_ids = self.page.query_selector_all(self.locators.ORDER_ID)
+        for i in order_ids:
+            order_id_list.append(i.inner_text())
+
+        result = any(order_number in order_id_list for order_number in order_id_list)
+        logger.info("ORDER_ID_LIST: %s", order_id_list)
+        logger.info("Is ORDER_NUMBER in ORDER_ID_LIST: %s", result)
+        return result

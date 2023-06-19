@@ -8,7 +8,7 @@ logger = logging.getLogger(__name__)
 class Users:
     fake = Faker()
 
-    static_user = "TestUser_Auto_114"
+    static_user = "TestUser_Auto"
 
     def user_id(self) -> str:
         user_id = "TestUser_" + str(self.fake.random_number(digits=5))
