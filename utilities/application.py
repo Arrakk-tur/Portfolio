@@ -1,4 +1,6 @@
-from playwright.sync_api import Playwright
+import logging
+
+from playwright.sync_api import Playwright, ConsoleMessage, Dialog
 
 from pages.pages import (
     MainPage,
@@ -17,10 +19,21 @@ from pages.pages import (
 
 class App:
     def __init__(self, playwright: Playwright, base_url: str, headless=False):
+
+        def console_handler(message: ConsoleMessage):
+            if message.type == "error":
+                logging.error(f"PAGE: {self.page.url}, CONSOLE_ERROR: {message.text}")
+
+        def dialog_handler(dialog: Dialog):
+            logging.warning(f"PAGE: {self.page.url}, DIALOG_TEXT: {dialog.message}")
+            dialog.accept()
+
         self.browser = playwright.chromium.launch(headless=headless)
         self.context = self.browser.new_context()
         self.page = self.context.new_page()
         self.base_url = base_url
+        self.page.on("console", console_handler)
+        self.page.on("dialog", dialog_handler)
 
         # Pages
         self.main_page = MainPage(self.page)
