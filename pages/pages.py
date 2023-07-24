@@ -1,8 +1,8 @@
 import logging
-import re
 
 import pytest
 from playwright.sync_api import Page
+from reportportal_client import step
 
 from data.users import Users
 from data.locators import (
@@ -27,28 +27,35 @@ class MainPage:
         self.locators = MainPageLocators
         self.page = page
 
+    @step("Navigate to SignIn page by Header menu")
     def navigate_to_sign_in_page_by_header_menu(self):
         self.page.click(self.locators.SIGN_IN_BUTTON)
 
+    @step("Navigate to Shopping Cart page by Header menu")
     def navigate_to_shopping_cart_page_by_header_menu(self):
         self.page.click(self.locators.SHOPPING_CART_BUTTON)
 
+    @step("Navigate to My Account page by Header menu")
     def navigate_to_my_account_page_by_header_menu(self):
         self.page.click(self.locators.MY_ACCOUNT_BUTTON)
 
+    @step("Navigate to Reptile Category page by Sidebar menu")
     def navigate_to_reptile_category_by_sidebar_menu(self):
         self.page.click(self.locators.REPTILES_CATEGORY_IN_SIDEBAR_MENU)
 
+    @step("Checking that Sidebar menu is present")
     def check_sidebar_is_present(self):
         self.page.wait_for_url(self.locators.MAIN_PAGE_URL)
         return self.page.is_visible(self.locators.SIDEBAR_MENU)
 
+    # @step("Get Username from Main Page")
     def check_user_is_login(self) -> str:
         self.page.wait_for_url(self.locators.MAIN_PAGE_URL)
         welcome_text = self.page.inner_text(self.locators.WELCOME_MESSAGE)
         name = welcome_text.removeprefix("Welcome ").removesuffix("!")
-        logger.info("Verified NAME: %s", name)
-        return name
+        # logger.info("Verified NAME: %s", name)
+        with step("Get Username from Main Page", {"Username": name}):
+            return name
 
 
 class SignInPage:
@@ -56,21 +63,27 @@ class SignInPage:
         self.locators = SignInPageLocators
         self.page = page
 
+    @step("Filling in Username field")
     def input_text_to_username_field(self, username: str):
         self.page.fill(self.locators.USERNAME_INPUT, username)
 
+    @step("Filling in Password field")
     def input_text_to_password_field(self, password: str):
         self.page.fill(self.locators.PASSWORD_INPUT, password)
 
+    @step("Click to Login button")
     def click_login_button(self):
         self.page.click(self.locators.LOGIN_BUTTON)
 
+    @step("Check that Login button is visible")
     def check_login_button_is_visible(self):
         return self.page.is_visible(self.locators.LOGIN_BUTTON)
 
+    @step("Navigate to Register page by link")
     def navigate_to_register_page_by_link(self):
         self.page.click(self.locators.REGISTER_BUTTON)
 
+    @step("Check that Sign on failed message is visible")
     def sign_on_failed_message_is_visible(self):
         return self.page.is_visible(self.locators.SIGN_ON_FAILED_MESSAGE)
 
@@ -80,12 +93,14 @@ class SignInPage:
         :param username:
         :param password:
         """
-        logger.info("USERNAME: %s | PASSWORD: %s", username, password)
+        with step("Login with parameters", {"Username": username, "Password": password}):
+            # logger.info("USERNAME: %s | PASSWORD: %s", username, password)
 
-        self.input_text_to_username_field(username)
-        self.input_text_to_password_field(password)
-        self.click_login_button()
+            self.input_text_to_username_field(username)
+            self.input_text_to_password_field(password)
+            self.click_login_button()
 
+    @step("Login as Static User")
     def login_by_static_user(self):
         m = MainPage(self.page)
         r = RegistrationPage(self.page)

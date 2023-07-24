@@ -6,7 +6,7 @@ logger = logging.getLogger(__name__)
 
 
 class Users:
-    fake = Faker()
+    fake = Faker("en_US")
 
     static_user = "TestUser_Auto"
 
