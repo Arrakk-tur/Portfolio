@@ -17,6 +17,12 @@ def rp_logger():
     return logger
 
 
+@fixture(scope='session')
+def rp_launch_id(request):
+    if hasattr(request.config, "py_test_service"):
+        return request.config.py_test_service.rp.launch_id
+
+
 # Playwright
 @fixture(scope="session")
 def get_playwright():

@@ -1,5 +1,4 @@
 import pytest
-from time import sleep
 from data.users import Users
 
 
@@ -20,13 +19,14 @@ class TestsRegistrationPage:
 
 class TestsSignInPage:
 
+    static_user = Users().static_user
     ddt = {
         "argnames": "username, password",
         "argvalues": [
-            ("Invalid", Users().static_user),
-            (Users().static_user, "Invalid"),
-            ("", Users().static_user),
-            (Users().static_user, ""),
+            ("Invalid", static_user),
+            (static_user, "Invalid"),
+            ("", static_user),
+            (static_user, ""),
             ("", "")
         ],
         "ids": ["Invalid Username and Valid Password",
@@ -37,11 +37,12 @@ class TestsSignInPage:
                 ]
     }
 
+    # @pytest.mark("Login Valid")
     def test_login_user_with_valid_data(self, driver):
         m = driver.main_page
         s = driver.sign_in_page
         r = driver.registration_page
-        user = Users().static_user
+        user = self.static_user
 
         m.navigate_to_sign_in_page_by_header_menu()
         s.login(user, user)
@@ -52,7 +53,7 @@ class TestsSignInPage:
             m.navigate_to_sign_in_page_by_header_menu()
             s.login(user, user)
 
-        assert m.check_user_is_login() == user  # 'Jessica'
+        assert m.check_user_is_login() == user
 
     @pytest.mark.parametrize(**ddt)
     def test_login_user_with_invalid_data(self, driver, username, password):
@@ -99,6 +100,7 @@ class TestsOrder:
 
         assert s.check_remove_button_is_visible() is False
 
+    # @pytest.mark("Checkout an order from the shopping cart")
     def test_checkout_an_order_from_the_shopping_cart(self, driver):
         sc = driver.shopping_cart_page
         s = driver.sign_in_page
