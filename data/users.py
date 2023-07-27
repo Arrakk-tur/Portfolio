@@ -10,6 +10,11 @@ class Users:
 
     static_user = "TestUser_Auto"
 
+    api_auth_user = {
+        "username": "admin",
+        "password": "password123"
+    }
+
     def user_id(self) -> str:
         user_id = "TestUser_" + str(self.fake.random_number(digits=5))
         logger.info("Generated USER_ID: %s", user_id)
