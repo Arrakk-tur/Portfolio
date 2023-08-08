@@ -1,11 +1,15 @@
 import logging
-import sys
+from typing import Generator
 
 from pytest import fixture
 from reportportal_client import RPLogger
-from playwright.sync_api import sync_playwright
+from playwright.sync_api import sync_playwright, Playwright, APIRequestContext
 
 from utilities.application import App
+from api.api import ApiAuth
+
+
+base_url_api = "https://restful-booker.herokuapp.com/"
 
 
 # Report Portal
@@ -39,3 +43,25 @@ def driver(get_playwright, request):
     yield app
     app.close()
 
+
+# API Playwright
+@fixture(scope='session')
+def api_request_context(
+        request,
+        playwright: Playwright
+) -> Generator[APIRequestContext, None, None]:
+    request_context = playwright.request.new_context(base_url=base_url_api)
+    yield request_context
+    request_context.dispose()
+
+
+@fixture(scope="session")
+def api_auth(
+        playwright: Playwright, request, api_request_context
+) -> Generator[APIRequestContext, None, None]:
+    auth_token = ApiAuth().create_auth_token(api_request_context)
+    headers = {"Cookie": auth_token}
+
+    request_context = playwright.request.new_context(base_url=base_url_api, extra_http_headers=headers)
+    yield request_context
+    request_context.dispose()
