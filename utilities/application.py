@@ -1,7 +1,6 @@
 import logging
 
 from playwright.sync_api import Playwright, ConsoleMessage, Dialog
-from data.users import Users
 
 from pages.pages import (
     MainPage,
@@ -16,8 +15,6 @@ from pages.pages import (
     MyAccountPage,
     MyOrdersPage
 )
-
-api_auth_user = Users.api_auth_user
 
 
 class App:
@@ -61,25 +58,3 @@ class App:
         self.page.close()
         self.context.close()
         self.browser.close()
-
-
-class Api:
-
-    def create_auth_token(self, api_request_context):
-        data = {
-            "username": api_auth_user["username"],
-            "password": api_auth_user["password"]
-        }
-        headers = {
-            "Content-Type": "application/json"
-        }
-        endpoint = "auth"
-
-        auth_token_request = api_request_context.post(
-            endpoint=endpoint,
-            headers=headers,
-            data=data
-        )
-        auth_token_response = auth_token_request.json()
-        logging.info("AUTH TOKEN: %s", auth_token_response)
-        return auth_token_response["token"]
