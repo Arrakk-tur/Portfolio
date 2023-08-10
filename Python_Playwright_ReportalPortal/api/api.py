@@ -1,6 +1,6 @@
 import logging
 
-from data.users import Users
+from Python_Playwright_ReportalPortal.data.users import Users
 
 logger = logging.getLogger(__name__)
 
