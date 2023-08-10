@@ -4,8 +4,8 @@ import pytest
 from playwright.sync_api import Page
 from reportportal_client import step
 
-from data.users import Users
-from data.locators import (
+from Python_Playwright_ReportalPortal.data.users import Users
+from Python_Playwright_ReportalPortal.data.locators import (
     MainPageLocators,
     SignInPageLocators,
     RegistrationPageLocators,

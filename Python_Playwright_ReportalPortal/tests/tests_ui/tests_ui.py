@@ -1,5 +1,5 @@
 import pytest
-from data.users import Users
+from Python_Playwright_ReportalPortal.data.users import Users
 
 
 class TestsRegistrationPage:

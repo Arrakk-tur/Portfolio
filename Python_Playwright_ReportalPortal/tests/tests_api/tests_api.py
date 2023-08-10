@@ -1,4 +1,4 @@
-from api.api import ApiBooking, ApiAuth
+from Python_Playwright_ReportalPortal.api.api import ApiBooking, ApiAuth
 
 
 class TestsBooking:
