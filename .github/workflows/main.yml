@@ -4,9 +4,7 @@ jobs:
   print:
     runs-on: ubuntu-latest
     steps:
-    - name: Print to console
-      run: echo Hello GH Actions!
-    - name: Print a few lines
-      run: |
-        echo First line!
-        echo Second line!
+    - name: Python3 version
+      run: python3 --version
+    - name: Python packages
+      run: pip3 freeze
