@@ -2,7 +2,7 @@ import logging
 
 from playwright.sync_api import Playwright, ConsoleMessage, Dialog
 
-from pages.pages import (
+from Python_Playwright_ReportalPortal.pages.pages import (
     MainPage,
     SignInPage,
     RegistrationPage,

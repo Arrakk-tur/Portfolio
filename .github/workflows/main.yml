@@ -1,12 +1,31 @@
 name: Python runner
-on: workflow_dispatch
+on: push
 jobs:
-  print:
+  test_ui:
     runs-on: ubuntu-latest
     steps:
-    - name: Print to console
-      run: echo Hello GH Actions!
-    - name: Print a few lines
+    - name: Get repository code
+      uses: actions/checkout@v3
+      with:
+        sparse-checkout: |
+          Python_Playwright_ReportalPortal
+    - name: Installing Playwright
+      run: pip install pytest-playwright
+    - name: Installing Playwright browser Chrome
+      run: playwright install --with-deps chromium
+    - name: Installing Python library's from requirements.txt
       run: |
-        echo First line!
-        echo Second line!
+        cd Python_Playwright_ReportalPortal
+        pip3 install -r requirements.txt
+    - name: Running UI Tests by PyTest
+      run: |
+        cd Python_Playwright_ReportalPortal
+        pytest tests/tests_ui/tests_ui.py::TestsSignInPage
+    - name: Running UI Tests by Run pytest
+      uses: pavelzw/pytest-action@v2
+      with:
+        verbose: true
+        emoji: false
+        job-summary: true
+        click-to-expand: true
+        report-title: 'Test Report'

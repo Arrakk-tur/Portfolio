@@ -5,8 +5,8 @@ from pytest import fixture
 from reportportal_client import RPLogger
 from playwright.sync_api import sync_playwright, Playwright, APIRequestContext
 
-from utilities.application import App
-from api.api import ApiAuth
+from Python_Playwright_ReportalPortal.utilities.application import App
+from Python_Playwright_ReportalPortal.api.api import ApiAuth
 
 
 base_url_api = "https://restful-booker.herokuapp.com/"
