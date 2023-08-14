@@ -10,6 +10,4 @@ jobs:
         sparse-checkout: |
           Python_Playwright_ReportalPortal
     - name: Installing Python library's from requirements.txt
-      run: |
-      pwd
-      ls
+      run: pwd
