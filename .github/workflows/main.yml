@@ -20,7 +20,7 @@ jobs:
     - name: Running UI Tests by PyTest
       run: |
         cd Python_Playwright_ReportalPortal
-        pytest tests/tests_ui/tests_ui.py::TestsSignInPage
+        pytest tests/tests_ui/tests_ui.py::TestsSignInPage --headless
     - name: Running UI Tests by Run pytest
       uses: pavelzw/pytest-action@v2
       with:
