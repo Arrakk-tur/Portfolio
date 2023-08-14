@@ -13,4 +13,5 @@ jobs:
       run: |
         cd Python_Playwright_ReportalPortal
         pip3 install -r requirements.txt
-        pip3 freeze
+    - name: Running UI Tests
+      run: pwd
