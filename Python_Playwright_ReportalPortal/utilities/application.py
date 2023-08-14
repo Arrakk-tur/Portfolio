@@ -18,7 +18,7 @@ from Python_Playwright_ReportalPortal.pages.pages import (
 
 
 class App:
-    def __init__(self, playwright: Playwright, base_url: str, headless=False):
+    def __init__(self, playwright: Playwright, base_url: str, headless=True):
 
         def console_handler(message: ConsoleMessage):
             if message.type == "error":
