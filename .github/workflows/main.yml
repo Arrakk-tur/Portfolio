@@ -1,10 +1,15 @@
 name: Python runner
-on: workflow_dispatch
+on: push
 jobs:
-  print:
+  test_ui:
     runs-on: ubuntu-latest
     steps:
-    - name: Python3 version
-      run: python3 --version
-    - name: Python packages
-      run: pip3 freeze
+    - name: Get repository code
+      uses: actions/checkout@v3
+      with:
+        sparse-checkout: |
+          Python_Playwright_ReportalPortal
+    - name: Installing Python library's from requirements.txt
+      run: |
+      pwd
+      ls
