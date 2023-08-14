@@ -10,4 +10,7 @@ jobs:
         sparse-checkout: |
           Python_Playwright_ReportalPortal
     - name: Installing Python library's from requirements.txt
-      run: pwd
+      run: |
+        cd Python_Playwright_ReportalPortal
+        pip3 install -r requirements.txt
+        pip3 freeze
