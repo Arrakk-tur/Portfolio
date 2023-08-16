@@ -21,9 +21,13 @@ jobs:
       run: |
         cd Python_Playwright_ReportalPortal
         xvfb-run pytest tests/tests_ui/tests_ui.py::TestsSignInPage
-        ls
     - name: HTML Report
       uses: actions/upload-artifact@v3
       with:
         name: Report
         path: /home/runner/work/Portfolio/Portfolio/Python_Playwright_ReportalPortal/report.html
+    - name: HTML Report Preview
+      id: html_preview
+      uses: pavi2410/html-preview-action@v2
+      with:
+        html_file: /home/runner/work/Portfolio/Portfolio/Python_Playwright_ReportalPortal/report.html
