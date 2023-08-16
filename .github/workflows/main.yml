@@ -26,4 +26,4 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: Report
-        path: /Python_Playwright_ReportalPortal/report.html
+        path: /home/runner/work/Portfolio/Portfolio/Python_Playwright_ReportalPortal/report.html
