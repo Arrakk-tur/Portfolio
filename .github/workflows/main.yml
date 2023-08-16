@@ -21,10 +21,8 @@ jobs:
       run: |
         cd Python_Playwright_ReportalPortal
         xvfb-run pytest tests/tests_ui/tests_ui.py::TestsSignInPage
-    - name: Upload HTML Report
-      uses: actions/upload-artifact@v3
-      if: always()
+    - name: HTML Report
+      uses: PavanMudigonda/html-reporter-github-pages/composite@v1.1
       with:
-        name: report.html
-        path: report.html
-        retention-days: 30
+        test_results: report
+        keep_reports: 20
