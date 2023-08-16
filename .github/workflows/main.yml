@@ -20,12 +20,4 @@ jobs:
     - name: Running UI Tests by PyTest
       run: |
         cd Python_Playwright_ReportalPortal
-        pytest tests/tests_ui/tests_ui.py::TestsSignInPage
-    - name: Running UI Tests by Run pytest
-      uses: pavelzw/pytest-action@v2
-      with:
-        verbose: true
-        emoji: false
-        job-summary: true
-        click-to-expand: true
-        report-title: 'Test Report'
+        xvfb-run pytest tests/tests_ui/tests_ui.py::TestsSignInPage
