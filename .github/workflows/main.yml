@@ -22,7 +22,7 @@ jobs:
         cd Python_Playwright_ReportalPortal
         xvfb-run pytest tests/tests_ui/tests_ui.py::TestsSignInPage
     - name: HTML Report
-      uses: PavanMudigonda/html-reporter-github-pages/composite@v1.1
+      uses: actions/upload-artifact@v3
       with:
-        test_results: report
-        keep_reports: 20
+        name: Report
+        path: /report.html
