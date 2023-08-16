@@ -21,8 +21,8 @@ jobs:
       run: |
         cd Python_Playwright_ReportalPortal
         xvfb-run pytest tests/tests_ui/tests_ui.py::TestsSignInPage
+        ls
     - name: HTML Report
-      run: ls
       uses: actions/upload-artifact@v3
       with:
         name: Report
