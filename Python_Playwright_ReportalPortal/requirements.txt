@@ -1,7 +1,8 @@
 pytest==7.4.0
-playwright
+playwright==1.37.0
 pytest-playwright
 pytest-reportportal
 pytest-xdist
+pytest-html
 requests
 Faker
