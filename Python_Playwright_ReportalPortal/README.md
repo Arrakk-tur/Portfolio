@@ -1,5 +1,5 @@
 # Python_Playwright_ReportPortal
-Personal examples of Python based test framework.
+Personal examples of Python-based test framework.
 
 Technical stack is used:
 - PyTest
@@ -8,5 +8,5 @@ Technical stack is used:
 - Faker
 
 Objects of testing:
-- UI - https://petstore.octoperf.com/actions/Catalog.action/
+- UI - https://petstore.octoperf.com/
 - API - https://restful-booker.herokuapp.com/
